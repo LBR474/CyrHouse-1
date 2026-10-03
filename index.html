@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cyrenian House — Figure Morph Test</title>
+
+    <style>
+        @font-face {
+            font-family: "Satisfy";
+            src: url("fonts/Satisfy/Satisfy-Regular.ttf") format("truetype");
+        }
+
+        @font-face {
+            font-family: "Raleway";
+            src: url("fonts/Raleway/static/Raleway-Regular.ttf") format("truetype");
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #fff;
+        }
+
+        .page-container {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .top-banner {
+            height: 14vh;
+            background: #fff;
+            /* background-image: url('images/Cyr-house-top-banner-no-logo.png');
+            background-size: contain;
+            background-position: center top;
+            background-repeat: no-repeat; */
+            display: grid;
+            grid-template-columns: 1.4fr 3fr 0.6fr;
+            align-items: center;
+            padding-right: 2%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .second-top-banner {
+            display: none;
+            box-sizing: border-box;
+        }
+
+        .main-content {
+            min-height: calc(100vh - 14vh);
+
+        }
+
+        .desktop-main-image {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .tablet-main-image {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+
+        .message-content {
+            height: 100%;
+            margin-left: auto;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+
+            text-align: right;
+        }
+
+
+        .message-words {
+            font-family: "Satisfy", cursive;
+            font-size: 48px;
+            line-height: 1.1;
+        }
+
+        .message-words,
+        #cy-logo {
+            display: block;
+
+        }
+
+        #cy-logo {
+            opacity: 0;
+            width: 260px;
+            height: auto;
+            margin-right: 440px;
+
+        }
+
+
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            white-space: nowrap;
+            font-family: "Raleway", sans-serif;
+        }
+
+        .top-nav a {
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+
+        .top-nav a:hover {
+            color: #ef4138;
+        }
+
+        .search-icon {
+            position: relative;
+            width: 18px;
+            height: 18px;
+            margin-left: 4px;
+            flex-shrink: 0;
+        }
+
+        .search-icon::before {
+            content: "";
+            position: absolute;
+            left: 1px;
+            top: 1px;
+            width: 10px;
+            height: 10px;
+            border: 2px solid #333;
+            border-radius: 50%;
+        }
+
+        .search-icon::after {
+            content: "";
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            width: 7px;
+            height: 2px;
+            background: #333;
+            transform: rotate(45deg);
+            transform-origin: left center;
+        }
+
+        .hamburger {
+            width: 68px;
+            height: 68px;
+            background: #ef4138;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            justify-self: end;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: #fff;
+        }
+
+        svg {
+            width: auto;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #gray-figure,
+        #red-figure {
+            visibility: hidden;
+        }
+
+        button {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .animation-container {
+            width: 900px;
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 0;
+            box-sizing: border-box;
+
+
+        }
+
+        #figure-stage {
+            position: relative;
+            width: auto;
+            height: 100%;
+            aspect-ratio: 328.34791 / 231.51042;
+            overflow: hidden;
+        }
+
+        #figure-box {
+            position: absolute;
+            left: 18%;
+            top: 40%;
+            width: 35%;
+            height: 37%;
+            background: #333;
+            z-index: 0;
+        }
+
+        #figure-stage svg {
+            position: relative;
+            z-index: 1;
+            width: auto;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .mobile-main-image {
+            display: none;
+        }
+
+        @media (max-width: 1000px) {
+
+            .top-banner .top-nav {
+                display: none;
+
+            }
+
+            .second-top-banner {
+                display: flex;
+                width: 100%;
+                height: 10vh;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .desktop-main-image {
+                display: none;
+            }
+
+
+            .tablet-main-image {
+                display: block;
+                width: 100%;
+                height: auto;
+                margin: 0;
+            }
+
+            .hamburger {
+                justify-self: end;
+                transform: translateX(-5%);
+            }
+
+        }
+
+        @media (max-width: 375px) {
+
+            .top-banner {
+                height: 14vh;
+                padding-left: 0;
+                padding-right: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .animation-container {
+                width: auto;
+                height: 100%;
+                flex-shrink: 1;
+                min-width: 0;
+                padding-right: 10px;
+            }
+
+            .top-banner .top-nav,
+            .second-top-banner {
+                display: none;
+            }
+
+            .hamburger {
+                flex-shrink: 0;
+            }
+
+            #figure-stage {
+                width: 140px;
+                height: auto;
+                aspect-ratio: 328.34791 / 231.51042;
+                flex-shrink: 0;
+            }
+
+            #figure-stage svg {
+                width: 100%;
+                height: 100%;
+            }
+
+            .message-content {
+                margin-left: 0;
+                margin-right: 0;
+                min-width: 0;
+            }
+
+            .message-words {
+                font-size: 24px;
+            }
+
+            #cy-logo {
+                width: 130px;
+                margin-right: 0;
+                transform: translateX(-40px);
+            }
+
+            .desktop-main-image {
+                display: none;
+            }
+
+            .tablet-main-image {
+                display: none;
+            }
+
+            .mobile-main-image {
+                display: block;
+                width: 100%;
+                height: auto;
+                margin: 0;
+            }
+
+
+        }
+
+       .demo-notice {
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    width: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    background: rgba(239, 65, 56, 0.9);
+    color: #fff;
+    padding: 10px 60px;
+    font-family: "Raleway", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    z-index: 9999;
+    pointer-events: none;
+
+    display: flex;
+    justify-content: center;
+}
+    </style>
+
+</head>
+
+<body>
+    <div class="demo-notice">
+        Demo site only — links are non-functioning
+    </div>
+
+    <div class="page-container">
+
+        <div class="top-banner">
+            <div class="animation-container">
+                <div id="figure-stage">
+
+                    <div id="figure-box"></div>
+
+                    <svg viewBox="0 0 328.34791 231.51042" xmlns="http://www.w3.org/2000/svg">
+
+
+                        <!-- White crouched figure -->
+                        <path id="white-figure" fill="#fffcff"
+                            d="m 111.66476,197.22319 c -1.41031,-1.65934 6.08673,-1.41275 6.82316,-4.16002 5.52566,-3.86641 9.04296,-9.96988 9.44122,-16.70322 0.65555,-8.14969 10.4161,2.31148 9.55037,6.69663 -3.93105,5.28302 2.16382,11.66048 7.76679,11.77562 8.52772,0.25555 17.16609,0.29028 25.53633,-1.58267 5.18208,-3.86051 -0.41745,-10.31087 -5.3867,-10.27655 -5.34122,0.24894 -9.62484,-2.65013 -11.29397,-7.73059 -1.32587,-4.56134 -3.26589,-8.85328 -5.03505,-13.24433 -1.53043,-5.47922 -3.62309,-10.7604 -5.30793,-16.21183 -2.43403,-3.9508 -1.26367,-5.6361 2.56508,-3.15038 3.73504,2.23894 11.69883,2.7127 11.46797,8.0525 -3.09257,5.12448 5.15362,2.3371 3.48641,7.46306 -1.97956,7.63436 7.89733,5.37553 8.47924,-0.0752 1.02209,-6.66133 1.60093,-14.7578 -4.04551,-19.64345 -5.90746,-4.28106 -12.93134,-6.76967 -19.29911,-10.30735 -5.12986,-2.6406 -10.65923,-4.72211 -15.43454,-8.0523 -3.19535,-2.13383 -11.67528,-4.88018 -4.92372,-8.73491 7.02681,-3.72634 14.15479,-10.97454 12.51844,-19.59164 -1.25532,-5.359044 -4.82506,-10.259138 -10.42186,-11.468026 -7.64364,-2.976086 -16.5511,1.598808 -20.75408,8.130815 -2.34945,4.032699 -3.57683,8.566608 -5.08351,12.853511 -3.384346,4.44823 -9.916081,3.45944 -13.906762,7.27813 -6.0876,3.62685 -8.443311,10.61763 -9.907213,17.13917 -1.936752,4.80275 -3.756614,9.71283 -4.663841,14.80899 -1.485118,6.37002 -2.641037,12.79066 -2.373787,19.35903 0.01456,5.66954 -0.172104,11.44073 1.409257,16.9092 0.495634,5.78699 -1.492328,14.46094 5.368959,17.1334 5.879445,0.90775 11.551838,1.95002 17.484882,2.31591 3.15622,-0.0756 4.984565,1.49134 0.560364,1.18032 -10.755375,0.66486 38.153691,0.6942 15.379111,-0.16382 z" />
+
+
+
+                        <!-- Gray climbing figure -->
+                        <path id="gray-figure" fill="#a9aaae"
+                            d="m 202.26866,167.79154 c 5.86458,-1.91939 5.37056,-9.18227 5.23651,-14.17485 -0.28765,-7.39296 -1.3438,-16.41328 4.67203,-21.91566 4.45761,-3.0485 11.38903,-4.72151 16.09725,-1.45578 3.79675,4.88355 1.93173,11.59367 1.18648,17.20882 -0.93071,5.55632 -3.46469,12.81475 1.59794,17.13553 5.21029,3.34727 11.69441,2.24659 17.58355,2.6955 2.41835,-2.84394 0.3243,-5.62126 -2.90208,-6.66426 -6.46287,-1.65479 -4.67656,-8.70602 -3.4741,-13.45047 1.96893,-11.04946 4.73444,-23.42578 -1.05839,-33.82156 -4.82964,-6.36759 -9.25309,-13.07582 -12.68342,-20.326987 -2.00956,-3.836889 -3.64914,-8.029365 -5.88937,-11.644572 -2.76058,-1.619312 -7.09098,-2.963837 -6.71331,-6.88915 4.12047,-3.330811 8.83625,-7.364776 8.20752,-13.653157 -0.057,-3.111308 -0.73273,-6.245697 -2.57608,-8.814869 -3.63714,-5.928067 -13.29207,-4.122885 -16.87659,0.844522 -1.8711,3.490629 -1.83128,7.674069 -2.82777,11.459348 -0.43382,7.666579 -7.2498,12.138913 -10.9225,18.166028 -5.79246,10.881856 -5.9275,23.591457 -7.39654,35.557647 -0.38524,3.36012 0.0691,6.82374 0.63807,10.12603 1.89219,5.63966 4.42654,11.1042 5.83184,16.87398 -3.75762,1.10582 -8.09513,-4.36372 -12.39222,-5.01483 -7.9084,-3.3218 -8.00195,5.95722 -9.78732,10.83746 -3.28538,3.78935 -1.77075,14.70024 4.57859,9.32699 1.86354,-0.79238 2.65506,-5.12376 4.72084,-4.25004 7.22483,3.83335 14.77483,7.26106 21.08435,12.54709 1.3398,0.69286 2.77196,-0.38211 4.06472,-0.70276 z m 14.93221,-58.30992 c -2.88929,-2.96344 -0.45276,-7.60667 2.49877,-9.636954 2.22312,2.346054 4.03449,5.038924 5.40173,7.966294 -2.52111,0.94885 -5.14226,3.17226 -7.9005,1.67066 z" />
+
+                        <!-- Red jumping figure -->
+                        <path id="red-figure" fill="#ef4138"
+                            d="m 258.09181,125.74901 c 7.93985,-11.08111 10.81213,-24.63667 15.46581,-37.21619 1.23034,-14.290936 0.0735,-29.672614 -7.95845,-42.011075 -2.36556,-5.40056 -8.30836,-9.978596 -6.92267,-16.292815 0.42621,-7.996065 -1.15117,-17.42402 4.9749,-23.6631098 -4.74221,0.1925339 -0.43359,-2.86812 -1.09514,-4.1682153 -4.28169,3.9513781 -0.60046,-3.684962 -4.11414,-0.624307 0.54827,-4.619787 -2.77521,0.865866 -4.69512,-0.842977 2.21478,6.592822 0.75409,12.5722471 -1.31155,19.0692191 0.0976,6.04226 -8.52237,6.523236 -5.23888,-0.02904 0.65198,-6.087961 -6.9772,-10.118263 -12.29452,-11.6354858 -7.54263,-1.8840904 -14.46384,6.5587378 -12.7751,13.5985288 1.10517,4.910605 9.46267,7.781866 2.65448,12.137832 -7.21461,5.058701 -15.68324,8.062904 -23.47681,12.161012 -9.7649,4.436339 -20.46993,7.655619 -31.30184,6.597932 4.25749,3.879897 -6.82688,7.088428 -0.96541,8.3491 7.49216,-0.908117 14.62459,-3.73363 22.18071,-4.501945 10.18878,-1.511016 20.31203,-3.495853 30.27001,-6.074164 10.56411,-1.656327 24.143,2.015645 27.59104,13.34215 2.40976,9.509497 -4.06596,18.040477 -5.74695,27.087061 -0.76904,7.986456 -6.65233,16.993584 -15.5564,12.174234 -7.66448,-4.389712 -15.77475,-4.00453 -23.1379,0.17761 -3.53016,-0.5533 -13.96756,2.08753 -9.8664,5.39906 8.65777,0.56517 18.245,-2.60592 26.11059,2.0585 10.70935,5.4046 20.70054,12.1768 31.71338,16.9886 2.0442,0.5775 4.2668,-0.42928 5.49636,-2.08143 z m -54.61419,-24.12464 c 7.56314,-1.967081 15.99719,-6.877344 22.69277,-0.53979 -3.5878,-2.354443 -7.71235,-11.946931 -14.30724,-8.978547 -4.88596,4.3881 -16.23768,2.834152 -16.78363,10.571287 2.71267,1.01606 5.57352,-1.789 8.3981,-1.05295 z" />
+
+                    </svg>
+                </div>
+                <div class="message-content">
+
+
+                    <div class="message-words">Climb out, be free of it</div>
+
+                    <img id="cy-logo" src="images/cy-logo-white-background-words-only.webp" alt="Cyrenian House Logo">
+                </div>
+
+            </div>
+            <nav class="top-nav">
+                <a href="https://cyrenianhouse.com/">Home</a>
+
+                <a href="https://cyrenianhouse.com/our-history/">About Us</a>
+
+                <a href="https://cyrenianhouse.com/programs-services-information/">Programs & Services</a>
+
+                <a href="https://cyrenianhouse.com/contact-us/">Contact Us</a>
+
+                <a href="https://cyrenianhouse.com/urgent-help/">URGENT HELP</a>
+
+                <a href="https://cyrenianhouse.com/donations/">DONATE</a>
+
+                <span class="search-icon" aria-label="Search"></span>
+            </nav>
+
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="second-top-banner">
+            <nav class="top-nav">
+                <a href="https://cyrenianhouse.com/">Home</a>
+
+                <a href="https://cyrenianhouse.com/our-history/">About Us</a>
+
+                <a href="https://cyrenianhouse.com/programs-services-information/">Programs & Services</a>
+
+                <a href="https://cyrenianhouse.com/contact-us/">Contact Us</a>
+
+                <a href="https://cyrenianhouse.com/urgent-help/">URGENT HELP</a>
+
+                <a href="https://cyrenianhouse.com/donations/">DONATE</a>
+
+                <span class="search-icon" aria-label="Search"></span>
+            </nav>
+        </div>
+
+        <main class="main-content">
+            <img class="desktop-main-image" src="images/Cyr-house-main-content-1.webp" alt="">
+            <img class="tablet-main-image" src="images/MC-tablet-img-1.webp" alt="">
+            <img class="mobile-main-image" src="images/cyr-house-main-content-narrow-1.png" alt="">
+
+
+
+        </main>
+
+    </div>
+
+    <!-- // <button id="morph-button">Morph white → gray</button> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/MorphSVGPlugin.min.js"></script>
+    <!-- Put your MorphSVGPlugin.min.js file here -->
+
+
+
+    <script>
+        gsap.registerPlugin(MorphSVGPlugin);
+
+        const tl = gsap.timeline({ delay: 1 });
+
+        gsap.set("#white-figure", {
+            scale: 0.65,
+            transformOrigin: "0% 35%"
+        });
+
+        tl.to("#white-figure", {
+            duration: 1.5,
+            scale: 0.7,
+            morphSVG: "#gray-figure",
+            fill: "#a9aaae",
+            ease: "power2.inOut"
+        })
+            .to(".message-words", {
+                duration: 0.5,
+                opacity: 0,
+                ease: "power2.inOut"
+            })
+
+            .to("#white-figure", {
+                duration: 1.5,
+                scale: 1.0,
+                morphSVG: "#red-figure",
+                fill: "#ef4138",
+                ease: "power2.inOut"
+            })
+            .to("#cy-logo", {
+
+                duration: 1.75,
+                opacity: 1,
+                ease: "power2.inOut"
+            }, "<");
+    </script>
+
+</body>
+
+</html>
